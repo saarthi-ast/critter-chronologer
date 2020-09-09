@@ -20,13 +20,17 @@ public class Schedule {
     private Long scheduleId;
 
     @ElementCollection(targetClass = Long.class)
+    @CollectionTable(name = "employee_schedules", joinColumns = @JoinColumn(name = "scheduleId"))
     private List<Long> employeeIds;
+
     @ElementCollection(targetClass = Long.class)
+    @CollectionTable(name = "pet_schedules", joinColumns = @JoinColumn(name = "scheduleId"))
     private List<Long> petIds;
 
     private LocalDate date;
 
     @ElementCollection(targetClass = EmployeeSkill.class)
     @Enumerated(value = EnumType.STRING)
+    @CollectionTable(name = "schedule_activities", joinColumns = @JoinColumn(name = "scheduleId"))
     private Set<EmployeeSkill> activities;
 }

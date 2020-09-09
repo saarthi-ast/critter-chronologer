@@ -13,7 +13,7 @@ public class PetDTO {
     private Long petId;
     private PetType type;
     private String name;
-    private long ownerId;
+    private Long ownerId;
     private LocalDate birthDate;
     private String notes;
 }

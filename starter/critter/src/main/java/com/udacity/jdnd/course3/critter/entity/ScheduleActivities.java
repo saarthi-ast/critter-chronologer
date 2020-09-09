@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.entity;
 
+import com.udacity.jdnd.course3.critter.entity.keys.ScheduleActivitiesKey;
 import com.udacity.jdnd.course3.critter.entity.keys.SkillsKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,8 +14,8 @@ import javax.persistence.Table;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "employee_skills")
-public class EmployeeSkills {
+@Table(name = "Schedule_Activities")
+public class ScheduleActivities {
     @EmbeddedId
-    private SkillsKey skillsKey;
+    private ScheduleActivitiesKey scheduleActivitiesKey;
 }

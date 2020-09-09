@@ -13,7 +13,8 @@ import java.util.Set;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("Select e FROM Employee e, EmployeeSkills s, EmployeeAvailability d " +
-            "where e.id=d.employeeId and e.id=s.employeeId and d.daysAvailable = :requestedDay " +
-            "and s.skills in :skills")
-    List<Employee> findAllByDaysAvailableAndSkillsIn(DayOfWeek requestedDay, Set<EmployeeSkill> skills);
+            "where e.id=d.availabilityKey.employeeId and e.id=s.skillsKey.employeeId and " +
+            "d.availabilityKey.daysAvailable = :requestedDay " +
+            "and s.skillsKey.skills in :skills")
+    Set<Employee> findAllByDaysAvailableAndSkillsIn(String requestedDay, Set<String> skills);
 }

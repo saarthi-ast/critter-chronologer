@@ -19,11 +19,11 @@ public class Employee {
     private Long employeeId;
     private String name;
     @ElementCollection(targetClass = EmployeeSkill.class)
-    @CollectionTable(name = "employee_skills", joinColumns = @JoinColumn(name = "employee_id"))
+    @CollectionTable(name = "employee_skills", joinColumns = @JoinColumn(name = "employeeId"))
     @Enumerated(value = EnumType.STRING)
     private Set<EmployeeSkill> skills;
     @ElementCollection(targetClass = DayOfWeek.class)
-    @CollectionTable(name = "employee_availability", joinColumns = @JoinColumn(name = "employee_id"))
+    @CollectionTable(name = "employee_availability", joinColumns = @JoinColumn(name = "employeeId"))
     @Enumerated(value = EnumType.STRING)
     private Set<DayOfWeek> daysAvailable;
 }

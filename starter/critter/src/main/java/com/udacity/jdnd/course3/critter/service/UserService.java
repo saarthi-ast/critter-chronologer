@@ -14,9 +14,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import static com.udacity.jdnd.course3.critter.constants.ApplicationConstants.PET_NOT_FOUND_ID;
-import static com.udacity.jdnd.course3.critter.constants.ApplicationConstants.USER_NOT_FOUND_ID;
+import static com.udacity.jdnd.course3.critter.constants.ApplicationConstants.*;
 
 @Service
 public class UserService {
@@ -51,8 +51,12 @@ public class UserService {
         return customerRepository.findAll();
     }
 
-    public Customer getOwnerByPet(Long petId) {
-        return customerRepository.findByPetId(petId);
+    public Customer getOwnerByPet(Long petId) throws UserNotFoundException {
+        Customer customer = customerRepository.findByPetId(petId);
+        if(customer != null){
+            return customer;
+        }
+        throw new UserNotFoundException(USER_NOT_FOUND_PET_ID);
     }
 
     public Employee saveEmployee(Employee employee) throws UserNotFoundException {
@@ -94,8 +98,18 @@ public class UserService {
         }
     }
 
-    public List<Employee> findEmployeesForService(LocalDate date, Set<EmployeeSkill> skills) {
+    public Set<Employee> findEmployeesForService(LocalDate date, Set<EmployeeSkill> skills) {
         DayOfWeek dayRequested = date.getDayOfWeek();
-        return employeeRepository.findAllByDaysAvailableAndSkillsIn(dayRequested,skills);
+        Set<String> skillsets = skills.stream().map(x->x.toString()).collect(Collectors.toSet());
+        return employeeRepository.findAllByDaysAvailableAndSkillsIn(dayRequested.toString(),skillsets);
+    }
+
+    public Customer getCustomerById(Long customerId) throws UserNotFoundException {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+        if(optionalCustomer.isPresent()){
+            return optionalCustomer.get();
+        }else {
+            throw new UserNotFoundException(CUSTOMER_NOT_FOUND_ID);
+        }
     }
 }

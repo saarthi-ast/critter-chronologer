@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface PetRepository extends JpaRepository<Pet, Long> {
@@ -13,4 +14,6 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
             "where p.owner.id = c.id and \n" +
             " c.id = :ownerId")
     List<Pet> findAllByOwnerId(Long ownerId);
+
+    List<Pet> findAllByPetIdIn(Set<Long> petIds);
 }
