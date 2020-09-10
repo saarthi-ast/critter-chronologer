@@ -13,6 +13,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Embeddable
 public class ScheduleActivitiesKey implements Serializable {
+    @NotNull
     private Long scheduleId;
+    @NotNull
     private String activities;
 }

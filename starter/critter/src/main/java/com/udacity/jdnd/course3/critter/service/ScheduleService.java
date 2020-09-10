@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ScheduleService {
@@ -25,7 +26,7 @@ public class ScheduleService {
         return scheduleRepository.findAll();
     }
 
-    public List<Schedule> getScheduleForEmployee(Long employeeId) {
+    public Set<Schedule> getScheduleForEmployee(Long employeeId) {
         return scheduleRepository.getScheduleForEmployee(employeeId);
     }
 
@@ -50,7 +51,7 @@ public class ScheduleService {
         }else {
             scheduleToSave = schedule;
         }
-        Schedule savedSchedule = scheduleRepository.saveAndFlush(scheduleToSave);
+        Schedule savedSchedule = scheduleRepository.save(scheduleToSave);
         return savedSchedule;
     }
 }

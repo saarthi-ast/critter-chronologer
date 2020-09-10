@@ -44,17 +44,9 @@ public class PetService {
             petToSave = pet;
         }
         Pet savedPet = repository.save(petToSave);
+
         if(savedPet.getOwner() != null){
-            Customer customer = savedPet.getOwner();
-            if(customer.getPets()!=null){
-                customer.getPets().add(savedPet);
-                customer.setPets(customer.getPets());
-            }else{
-                List<Pet> pets = new ArrayList<>();
-                pets.add(savedPet);
-                customer.setPets(pets);
-            }
-            userService.saveCustomer(customer);
+            userService.addPetToCustomer(savedPet, savedPet.getOwner());
         }
         return savedPet;
     }

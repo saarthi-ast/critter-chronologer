@@ -13,6 +13,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Embeddable
 public class PetScheduleKey implements Serializable {
+    @NotNull
     private Long scheduleId;
-    private Long petId;
+    @NotNull
+    private Long petIds;
 }

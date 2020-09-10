@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -40,7 +41,7 @@ public class ScheduleController {
 
     @GetMapping("/employee/{employeeId}")
     public List<ScheduleDTO> getScheduleForEmployee(@PathVariable Long employeeId) {
-        List<Schedule> schedules = scheduleService.getScheduleForEmployee(employeeId);
+        Set<Schedule> schedules = scheduleService.getScheduleForEmployee(employeeId);
         return schedules.stream().map(x->convertScheduleEntityToDTO(x)).collect(Collectors.toList());
     }
 

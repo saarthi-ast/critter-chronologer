@@ -13,7 +13,7 @@ import java.util.Set;
  */
 @Data
 public class ScheduleDTO {
-    private Long id;
+    private Long scheduleId;
     private List<Long> employeeIds;
     private List<Long> petIds;
     private LocalDate date;
