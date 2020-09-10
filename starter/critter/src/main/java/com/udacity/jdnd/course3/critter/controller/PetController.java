@@ -60,13 +60,13 @@ public class PetController {
     @GetMapping
     public List<PetDTO> getPets(){
         List<Pet> pets = petService.getAllPets();
-        return pets.stream().map(x -> convertPetEntityToDTO(x)).collect(Collectors.toList());
+        return pets.stream().map(PetController::convertPetEntityToDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable Long ownerId) {
         List<Pet> pets = petService.getPetsByOwner(ownerId);
-        return pets.stream().map(x -> convertPetEntityToDTO(x)).collect(Collectors.toList());
+        return pets.stream().map(PetController::convertPetEntityToDTO).collect(Collectors.toList());
     }
 
     private Pet convertPetDTOtoEntity(PetDTO dto) throws UserNotFoundException {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.DayOfWeek;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -52,7 +53,7 @@ public class UserController {
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers() {
         List<Customer> customers = userService.getAllCustomers();
-        return customers.stream().map(x -> convertCustomerEntityToDTO(x)).collect(Collectors.toList());
+        return customers.stream().map(UserController::convertCustomerEntityToDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/customer/{customerId}")
@@ -88,7 +89,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/employee/{employeeId}")
+    @GetMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable Long employeeId) {
         try {
             Employee employee = userService.getEmployee(employeeId);
@@ -112,14 +113,14 @@ public class UserController {
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
         Set<Employee> employees = userService.findEmployeesForService(employeeDTO.getDate(), employeeDTO.getSkills());
-        return employees.stream().map(x -> convertEmployeeEntityToDTO(x)).collect(Collectors.toList());
+        return employees.stream().map(UserController::convertEmployeeEntityToDTO).collect(Collectors.toList());
     }
 
     private Customer convertCustomerDTOToEntity(CustomerDTO dto) {
         Customer customer = new Customer();
         BeanUtils.copyProperties(dto, customer);
         if(!CollectionUtils.isEmpty(dto.getPetIds())){
-            List<Pet> pets = petService.getPetsByIds(dto.getPetIds().stream().collect(Collectors.toSet()));
+            List<Pet> pets = petService.getPetsByIds(new HashSet<>(dto.getPetIds()));
             customer.setPets(pets);
         }
         return customer;
@@ -129,7 +130,7 @@ public class UserController {
         CustomerDTO dto = new CustomerDTO();
         BeanUtils.copyProperties(customer, dto);
         if(!CollectionUtils.isEmpty(customer.getPets())){
-            List<Long> petIds = customer.getPets().stream().map(x->x.getPetId()).collect(Collectors.toList());
+            List<Long> petIds = customer.getPets().stream().map(Pet::getPetId).collect(Collectors.toList());
             dto.setPetIds(petIds);
         }
         return dto;

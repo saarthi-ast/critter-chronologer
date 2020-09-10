@@ -9,6 +9,7 @@ import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 import static com.udacity.jdnd.course3.critter.constants.ApplicationConstants.*;
 
 @Service
+@Transactional
 public class UserService {
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -101,7 +103,7 @@ public class UserService {
 
     public Set<Employee> findEmployeesForService(LocalDate date, Set<EmployeeSkill> skills) {
         DayOfWeek dayRequested = date.getDayOfWeek();
-        Set<String> skillsets = skills.stream().map(x -> x.toString()).collect(Collectors.toSet());
+        Set<String> skillsets = skills.stream().map(Enum::toString).collect(Collectors.toSet());
         return employeeRepository.findAllByDaysAvailableAndSkillsIn(dayRequested.toString(), skillsets);
     }
 
@@ -116,12 +118,11 @@ public class UserService {
 
     public void addPetToCustomer(Pet savedPet, Customer customer) {
         List<Pet> pets = customer.getPets();
-        if (pets != null) {
-            pets.add(savedPet);
-        } else {
+        if (pets == null) {
             pets = new ArrayList<>();
-            pets.add(savedPet);
         }
+        pets.add(savedPet);
+
         customer.setPets(pets);
         customerRepository.save(customer);
     }

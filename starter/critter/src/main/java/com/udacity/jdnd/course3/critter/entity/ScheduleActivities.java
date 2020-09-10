@@ -1,7 +1,6 @@
 package com.udacity.jdnd.course3.critter.entity;
 
 import com.udacity.jdnd.course3.critter.entity.keys.ScheduleActivitiesKey;
-import com.udacity.jdnd.course3.critter.entity.keys.SkillsKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

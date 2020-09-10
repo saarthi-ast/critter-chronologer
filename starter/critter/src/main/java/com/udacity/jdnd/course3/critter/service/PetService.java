@@ -1,24 +1,19 @@
 package com.udacity.jdnd.course3.critter.service;
 
-import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.exception.PetNotFoundException;
-import com.udacity.jdnd.course3.critter.exception.UserNotFoundException;
-import com.udacity.jdnd.course3.critter.pet.PetDTO;
-import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.udacity.jdnd.course3.critter.constants.ApplicationConstants.PET_NOT_FOUND_ID;
 
 @Service
+@Transactional
 public class PetService {
     @Autowired
     private PetRepository repository;
@@ -26,7 +21,7 @@ public class PetService {
     @Autowired
     private UserService userService;
 
-    public Pet savePet(Pet pet) throws PetNotFoundException, UserNotFoundException {
+    public Pet savePet(Pet pet) throws PetNotFoundException {
         Pet petToSave;
         if (pet.getPetId() != null) {
             Optional<Pet> petExists = repository.findById(pet.getPetId());

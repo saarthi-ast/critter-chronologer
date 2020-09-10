@@ -1,7 +1,5 @@
 package com.udacity.jdnd.course3.critter.repository;
 
-import com.udacity.jdnd.course3.critter.entity.Customer;
-import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.entity.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +14,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             "where s.id = p.petScheduleKey.scheduleId and \n" +
             " s.id = e.employeeScheduleKey.scheduleId and s.id = sa.scheduleActivitiesKey.scheduleId" +
             " and p.petScheduleKey.petIds = :petId")
-    List<Schedule> getScheduleForPet(Long petId);
+    Set<Schedule> getScheduleForPet(Long petId);
 
     @Query("SELECT s FROM Schedule s, PetSchedules p, EmployeeSchedules e, ScheduleActivities sa \n" +
             "where s.id = p.petScheduleKey.scheduleId and \n" +
@@ -27,6 +25,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     @Query("SELECT s FROM Schedule s, PetSchedules p, EmployeeSchedules e, ScheduleActivities sa \n" +
             "where s.id = p.petScheduleKey.scheduleId and \n" +
             " s.id = e.employeeScheduleKey.scheduleId and s.id = sa.scheduleActivitiesKey.scheduleId" +
-            " and p.petScheduleKey.petIds in :pets")
-    List<Schedule> getScheduleForCustomer(List<Pet> pets);
+            " and p.petScheduleKey.petIds in :petIds")
+    Set<Schedule> getScheduleForCustomer(List<Long> petIds);
 }

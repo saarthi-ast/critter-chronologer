@@ -24,4 +24,16 @@ public class Pet {
     private Customer owner;
     private LocalDate birthDate;
     private String notes;
+
+    @Override
+    public String toString() {
+        return "Pet{" +
+                "petId=" + petId +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                ", owner=" + owner.getCustomerId() +
+                ", birthDate=" + birthDate +
+                ", notes='" + notes + '\'' +
+                '}';
+    }
 }
